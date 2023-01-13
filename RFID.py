@@ -97,43 +97,30 @@ elif level == 3:
         if status == MIFAREReader.MI_OK:
             data = []
             xe = True
+            sector = 0
             print('Rewrite all sectors line by line.')
             print('Write end to exit')
             print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
             while xe:
-                text1 = str(input(': '))
+                text1 = str(input(f'Sector {sector}: '))
                 if text1 == 'end':
                     xe = False
                 else:
                     code = text1.split(', ')
                     data.append(code)
+                sector += 1
 
 
             print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
             key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
             MIFAREReader.MFRC522_SelectTag(uid)
 
-            #All read tag
-            print('Attach the tag you want to copy.')
-            text = MIFAREReader.MFRC522_DumpClassic1K(key, uid)
-            for x in text:
-                print(x[0])
-                data.append(x[0])
-            
-            print('Label read remove it, press enter and attach the label to which you want to copy.')
-            input('Enter ->')
-
-            #All write tag
-            print('Attach a label.')
-            (status, TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
-
-            if status == MIFAREReader.MI_OK:
-                print("Card detected")
-                try:
-                    MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
-                    print('Written')
-                except:
-                    print('Error')
+            #Full entry per tag
+            try:
+                MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
+                print('Written')
+            except:
+                print('Error')
 
 elif level == 4:
     reader = MFRC522.SimpleMFRC522()

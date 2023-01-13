@@ -417,7 +417,7 @@ class MFRC522:
             MIFAREReader.MFRC522_Write(i, x)
         else:
             print("Authentication error")
-        i = i+1
+        i += 1
 
   def MFRC522_Init(self):
     GPIO.output(self.NRSTPD, 1)
