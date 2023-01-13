@@ -96,6 +96,18 @@ elif level == 3:
 
         if status == MIFAREReader.MI_OK:
             data = []
+            xe = True
+            print('Rewrite all sectors line by line.')
+            print('Write end to exit')
+            print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
+            while xe:
+                text1 = str(input(': '))
+                if text1 == 'end':
+                    xe = False
+                else:
+                    code = text1.split(', ')
+                    data.append(code)
+
 
             print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
             key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
