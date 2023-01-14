@@ -102,12 +102,20 @@ elif level == 3:
             print('Write end to exit')
             print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
             while xe:
+                hex_text = []
                 text1 = str(input(f'Sector {sector}: '))
                 if text1 == 'end':
                     xe = False
                 else:
                     code = text1.split(', ')
-                    data.append(code)
+                    for x in code:
+                        x = int(x)
+                        f = ('%X' % x)
+                        if len(f) == 1:
+                            f = '0' + f
+                        f = '0x' + f
+                        hex_text.append(f)
+                    data.append(hex_text)
                 sector += 1
 
 
