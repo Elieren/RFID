@@ -360,7 +360,7 @@ class MFRC522:
     (status, backData, backLen) = self.MFRC522_ToCard(
         self.PCD_TRANSCEIVE, recvData)
     if not(status == self.MI_OK):
-      print("Error while reading!")
+      text.append("Error while reading!")
     i = 0
     if len(backData) == 16:
       text.append("Sector "+str(blockAddr)+" "+str(backData))
@@ -404,7 +404,7 @@ class MFRC522:
             text = self.MFRC522_Read(i)
             all_text.append(text)
         else:
-            print("Authentication error")
+            all_text = [["Authentication error"]]
         i = i+1
     return all_text
 

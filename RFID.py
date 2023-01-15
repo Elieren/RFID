@@ -58,11 +58,11 @@ elif level == 2:
             print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
             key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
             MIFAREReader.MFRC522_SelectTag(uid)
-            status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 8, key, uid)
+            status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 0, key, uid)
             print("\n")
             
             if status == MIFAREReader.MI_OK:
-                data = []
+                data_ex = []
 
                 print('Rewrite the values of the 0 sector separated by a space')
                 text = str(input(': '))
@@ -75,6 +75,16 @@ elif level == 2:
                 for x in new_uid_t:
                     data[a] = x
                     a += 1
+                
+                data = []
+
+                for x in data_ex:
+                    x = int(x)
+                    f = ('%X' % x)
+                    if len(f) == 1:
+                        f = '0' + f
+                    f = '0x' + f
+                    data.append(f)
 
                 print("Sector 0 looked like this:")
                 MIFAREReader.MFRC522_Read(0)
@@ -134,8 +144,8 @@ elif level == 4:
     reader = MFRC522.SimpleMFRC522()
     try:
         id, text = reader.read()
-        print(id)
-        print(text)
+        print(f'id: {id}')
+        print(f'text: {text}')
     except:
         print('Error')
     GPIO.cleanup()
