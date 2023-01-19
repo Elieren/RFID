@@ -51,6 +51,7 @@ if level == 1:
                     print(f'Sector {sector_number} {x[0]}')
                     sector_number += 1
                 MIFAREReader.MFRC522_StopCrypto1()
+                GPIO.cleanup()
                 break
         
         else:
@@ -105,6 +106,7 @@ elif level == 2:
                     text = MIFAREReader.MFRC522_Read(0)
                     print(f'Sector 0 {x[0]}')
                     MIFAREReader.MFRC522_StopCrypto1()
+                    GPIO.cleanup()
                     break
         
         else:
@@ -156,6 +158,7 @@ elif level == 3:
                     text = MIFAREReader.MFRC522_Read(numder)
                     print(f'Sector {numder} {x[0]}')
                     MIFAREReader.MFRC522_StopCrypto1()
+                    GPIO.cleanup()
                     break
 
         else:
@@ -207,6 +210,7 @@ elif level == 4:
                         print('\nWritten')
                     except:
                         print('\nError')
+                    GPIO.cleanup()
                     break
             
             else:
@@ -251,6 +255,7 @@ elif level == 4:
                                     print('\nWritten')
                                 except:
                                     print('\nError')
+                                GPIO.cleanup()
                                 exit()
                         
                         else:
