@@ -107,13 +107,14 @@ elif level == 2:
             time.sleep(1)
 
 elif level == 3:
-    numder = int(input('Change sector values: '))
-    data = []
-    print(f'Enter new values for sector {numder}')
     print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
     print('----------------------Disclaimer-----------------------')
     print('It is not recommended to change sectors 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63, as this may lead to card failure.')
     print('-------------------------------------------------------')
+    print()
+    numder = int(input('Change sector values: '))
+    data = []
+    print(f'Enter new values for sector {numder}')
     new_uid = str(input(': '))
     new_uid_t = new_uid.split(', ')
     for x in new_uid_t:
