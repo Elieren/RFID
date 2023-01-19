@@ -61,8 +61,8 @@ elif level == 2:
     text = str(input(': '))
     data_ex = text.split(', ')
 
-    print('Write the desired UID separated by a space')
-    print('Example:178, 126, 88, 36')
+    print('\nWrite the desired UID separated by a space')
+    print('Example:178, 126, 88, 36\n')
     new_uid = str(input(': '))
     new_uid_t = new_uid.split(', ')
     a = 0
@@ -95,8 +95,10 @@ elif level == 2:
                     print("Sector 0 looked like this:")
                     text = MIFAREReader.MFRC522_Read(0)
                     print(text[0])
+                    print('\n')
 
                     MIFAREReader.MFRC522_Write(0, data)
+                    print('\n')
                     print('Now it looks like this:')
                     text = MIFAREReader.MFRC522_Read(0)
                     print(text[0])
@@ -107,13 +109,15 @@ elif level == 2:
             time.sleep(1)
 
 elif level == 3:
+    print()
     print('----------------------Disclaimer-----------------------')
     print('It is not recommended to change sectors 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63, as this may lead to card failure.')
     print('-------------------------------------------------------')
     print()
     numder = int(input('Change sector values: '))
+    print()
     data = []
-    print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
+    print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
     print(f'Enter new values for sector {numder}')
     new_uid = str(input(': '))
     new_uid_t = new_uid.split(', ')
@@ -142,8 +146,10 @@ elif level == 3:
                     print(f"Sector {numder} looked like this:")
                     text = MIFAREReader.MFRC522_Read(numder)
                     print(text[0])
+                    print('\n')
 
                     MIFAREReader.MFRC522_Write(numder, data)
+                    print('\n')
                     print('Now it looks like this:')
                     text = MIFAREReader.MFRC522_Read(numder)
                     print(text[0])
@@ -161,16 +167,16 @@ elif level == 4:
         (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
         if status == MIFAREReader.MI_OK:
-            print("Card detected")
+            print("\nCard detected")
             (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
             if status == MIFAREReader.MI_OK:
                 data = []
                 xe = True
                 sector = 0
-                print('Rewrite all sectors line by line.')
-                print('Write end to exit')
-                print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0')
+                print('\nRewrite all sectors line by line.')
+                print('Write (end) to exit')
+                print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
                 while xe:
                     hex_text = []
                     text1 = str(input(f'Sector {sector}: '))
@@ -189,9 +195,9 @@ elif level == 4:
                 #Full entry per tag
                 try:
                     MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
-                    print('Written')
+                    print('\nWritten')
                 except:
-                    print('Error')
+                    print('\nError')
                 break
         
         else:
