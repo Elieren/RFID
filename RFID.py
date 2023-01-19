@@ -46,8 +46,10 @@ if level == 1:
                 key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
                 MIFAREReader.MFRC522_SelectTag(uid)
                 text = MIFAREReader.MFRC522_DumpClassic1K(key, uid)
+                sector_number = 0
                 for x in text:
-                    print(x[0])
+                    print(f'Sector {sector_number} {x[0]}')
+                    sector_number += 1
                 MIFAREReader.MFRC522_StopCrypto1()
                 break
         
@@ -94,14 +96,14 @@ elif level == 2:
 
                     print("Sector 0 looked like this:")
                     text = MIFAREReader.MFRC522_Read(0)
-                    print(text[0])
+                    print(f'Sector 0 {x[0]}')
                     print('\n')
 
                     MIFAREReader.MFRC522_Write(0, data)
                     print('\n')
                     print('Now it looks like this:')
                     text = MIFAREReader.MFRC522_Read(0)
-                    print(text[0])
+                    print(f'Sector 0 {x[0]}')
                     MIFAREReader.MFRC522_StopCrypto1()
                     break
         
@@ -145,14 +147,14 @@ elif level == 3:
 
                     print(f"Sector {numder} looked like this:")
                     text = MIFAREReader.MFRC522_Read(numder)
-                    print(text[0])
+                    print(f'Sector {numder} {x[0]}')
                     print('\n')
 
                     MIFAREReader.MFRC522_Write(numder, data)
                     print('\n')
                     print('Now it looks like this:')
                     text = MIFAREReader.MFRC522_Read(numder)
-                    print(text[0])
+                    print(f'Sector {numder} {x[0]}')
                     MIFAREReader.MFRC522_StopCrypto1()
                     break
 
@@ -161,47 +163,102 @@ elif level == 3:
 
 
 elif level == 4:
-    while True:
-        signal.signal(signal.SIGINT, end_read)
-        MIFAREReader = MFRC522.MFRC522()
-        (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+    print()
+    print('1) Write down the received code.')
+    print('2) Copy the code from the card.')
+    print()
 
-        if status == MIFAREReader.MI_OK:
-            print("\nCard detected")
-            (status, uid) = MIFAREReader.MFRC522_Anticoll()
+    level = int(input(': '))
+
+    if level == 1:
+        data = []
+        xe = True
+        sector = 0
+        print('\nRewrite all sectors line by line.')
+        print('Write (end) to exit')
+        print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
+        while xe:
+            hex_text = []
+            text1 = str(input(f'Sector {sector}: '))
+            if text1 == 'end':
+                xe = False
+            else:
+                code = text1.split(', ')
+                data.append(code)
+            sector += 1
+
+        while True:
+            signal.signal(signal.SIGINT, end_read)
+            MIFAREReader = MFRC522.MFRC522()
+            (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
 
             if status == MIFAREReader.MI_OK:
-                data = []
-                xe = True
-                sector = 0
-                print('\nRewrite all sectors line by line.')
-                print('Write (end) to exit')
-                print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
-                while xe:
-                    hex_text = []
-                    text1 = str(input(f'Sector {sector}: '))
-                    if text1 == 'end':
-                        xe = False
-                    else:
-                        code = text1.split(', ')
-                        data.append(code)
-                    sector += 1
+                print("\nCard detected")
+                (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
+                if status == MIFAREReader.MI_OK:
+                    print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
+                    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                    MIFAREReader.MFRC522_SelectTag(uid)
 
-                print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
-                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-                MIFAREReader.MFRC522_SelectTag(uid)
+                    #Full entry per tag
+                    try:
+                        MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
+                        print('\nWritten')
+                    except:
+                        print('\nError')
+                    break
+            
+            else:
+                time.sleep(1)
 
-                #Full entry per tag
-                try:
-                    MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
-                    print('\nWritten')
-                except:
-                    print('\nError')
-                break
-        
-        else:
-            time.sleep(1)
+    elif level == 2:
+        while True:
+            signal.signal(signal.SIGINT, end_read)
+            MIFAREReader = MFRC522.MFRC522()
+            (status, TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+            if status == MIFAREReader.MI_OK:
+                print("\nCard detected")
+                (status, uid) = MIFAREReader.MFRC522_Anticoll()
+
+                if status == MIFAREReader.MI_OK:
+                    print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
+                    data = []
+                    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                    MIFAREReader.MFRC522_SelectTag(uid)
+                    data = MIFAREReader.MFRC522_DumpClassic1K(key, uid)
+                    MIFAREReader.MFRC522_StopCrypto1()
+                    print('The card has been recorded.')
+                    print('Remove the card and press Enter.\n')
+                    input('Press Enter')
+                    print('\nAttach a card.')
+                    
+                    while True:
+                        (status, TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+                        if status == MIFAREReader.MI_OK:
+                            print("\nCard detected")
+                            (status, uid) = MIFAREReader.MFRC522_Anticoll()
+
+                            if status == MIFAREReader.MI_OK:
+                                print(f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}")
+                                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                                MIFAREReader.MFRC522_SelectTag(uid)
+
+                                try:
+                                    MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
+                                    print('\nWritten')
+                                except:
+                                    print('\nError')
+                                exit()
+                        
+                        else:
+                            time.sleep(1)
+
+            
+            else:
+                time.sleep(1)
 
 elif level == 5:
     reader = SimpleMFRC522()
