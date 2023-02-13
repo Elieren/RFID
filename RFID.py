@@ -35,6 +35,7 @@ def end_read(signal, frame):
 
 if level == 1:
     print(Fore.YELLOW + 'Attach a card\n')
+    sector_nom = []
     while True:
         signal.signal(signal.SIGINT, end_read)
         MIFAREReader = MFRC522.MFRC522()
@@ -52,6 +53,7 @@ if level == 1:
                 sector_number = 0
                 for x in text:
                     print(f'Sector {sector_number} {x[0]}')
+                    sector_nom.append(x[0])
                     sector_number += 1
                 MIFAREReader.MFRC522_StopCrypto1()
                 GPIO.cleanup()
@@ -59,6 +61,19 @@ if level == 1:
         
         else:
             time.sleep(1)
+        
+    otv = str(input(('Save in file (Y/n): ')))
+
+    if otv.lower() == 'y':
+        name = str(input('Name file: '))
+        f = open(f'{name}.txt', 'w')
+        for x in sector_nom:
+            f.write(x + '\n')
+        f.close()
+
+    else:
+        pass
+
 
 elif level == 2:
     data_ex = []
@@ -175,7 +190,8 @@ elif level == 3:
 elif level == 4:
     print()
     print(Fore.GREEN + '[1] Write down the received code.')
-    print('[2] Copy the code from the card.' + Style.RESET_ALL)
+    print('[2] Copy the code from the card.')
+    print('[3] Write data from a file.' + Style.RESET_ALL)
     print()
 
     level = int(input(Fore.YELLOW + ': '))
@@ -271,6 +287,41 @@ elif level == 4:
                         else:
                             time.sleep(1)
 
+            
+            else:
+                time.sleep(1)
+    
+    elif level == 3:
+        file = str(input('File: '))
+        f = open(file, 'r')
+        text = f.read()
+        text = text.split('\n')
+        text = text[:-1]
+
+        print(Fore.YELLOW + '\nAttach a card\n' + Style.RESET_ALL)
+
+        while True:
+            signal.signal(signal.SIGINT, end_read)
+            MIFAREReader = MFRC522.MFRC522()
+            (status,TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+            if status == MIFAREReader.MI_OK:
+                print(Fore.GREEN + "Card detected\n" + Style.RESET_ALL)
+                (status, uid) = MIFAREReader.MFRC522_Anticoll()
+
+                if status == MIFAREReader.MI_OK:
+                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                    MIFAREReader.MFRC522_SelectTag(uid)
+
+                    #Full entry per tag
+                    try:
+                        MIFAREReader.MFRC522_WriteClassic1K(key, uid, data)
+                        print(Fore.GREEN + '\nWritten' + Style.RESET_ALL)
+                    except:
+                        print(Fore.RED + '\nError' + Style.RESET_ALL)
+                    GPIO.cleanup()
+                    break
             
             else:
                 time.sleep(1)
