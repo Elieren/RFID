@@ -61,11 +61,11 @@ if level == 1:
         
         else:
             time.sleep(1)
-        
-    otv = str(input(('Save in file (Y/n): ')))
+    print()
+    otv = str(input((Fore.YELLOW + 'Save in file (Y/n): ')))
 
     if otv.lower() == 'y':
-        name = str(input('Name file: '))
+        name = str(input('Name file: ' + Style.RESET_ALL))
         f = open(f'{name}.txt', 'w')
         for x in sector_nom:
             f.write(x + '\n')

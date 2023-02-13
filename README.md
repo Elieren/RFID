@@ -55,5 +55,6 @@ sudo python3 RFID.py
 - 4.1) Write down the received code - you must rewrite all lines of code.
 
 - 4.2) Copy the code from the card - you must have two cards at once. First you attach what you want to copy, and then you attach where you want to copy.
+- 4.3) Write data from a file - writes values from the saved file to the map.
 5) Read text - reads the text written on the card.
 6) Write text - Writes text to the card.
