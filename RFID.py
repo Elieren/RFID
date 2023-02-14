@@ -46,7 +46,7 @@ if level == 1:
             (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
             if status == MIFAREReader.MI_OK:
-                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                 key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
                 MIFAREReader.MFRC522_SelectTag(uid)
                 text = MIFAREReader.MFRC522_DumpClassic1K(key, uid)
@@ -107,7 +107,7 @@ elif level == 2:
             (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
             if status == MIFAREReader.MI_OK:
-                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                 key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                 MIFAREReader.MFRC522_SelectTag(uid)
                 status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, 0, key, uid)
@@ -161,7 +161,7 @@ elif level == 3:
             (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
             if status == MIFAREReader.MI_OK:
-                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                 key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                 MIFAREReader.MFRC522_SelectTag(uid)
                 status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, numder, key, uid)
@@ -225,7 +225,7 @@ elif level == 4:
                 (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
                 if status == MIFAREReader.MI_OK:
-                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                     key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                     MIFAREReader.MFRC522_SelectTag(uid)
 
@@ -253,7 +253,7 @@ elif level == 4:
                 (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
                 if status == MIFAREReader.MI_OK:
-                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                     data = []
                     key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                     MIFAREReader.MFRC522_SelectTag(uid)
@@ -272,7 +272,7 @@ elif level == 4:
                             (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
                             if status == MIFAREReader.MI_OK:
-                                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                                 key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                                 MIFAREReader.MFRC522_SelectTag(uid)
 
@@ -310,7 +310,7 @@ elif level == 4:
                 (status, uid) = MIFAREReader.MFRC522_Anticoll()
 
                 if status == MIFAREReader.MI_OK:
-                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                    print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}.{uid[4]}" + Style.RESET_ALL)
                     key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
                     MIFAREReader.MFRC522_SelectTag(uid)
 
