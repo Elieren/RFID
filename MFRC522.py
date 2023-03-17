@@ -363,7 +363,7 @@ class MFRC522:
       text.append("Error while reading!")
     i = 0
     if len(backData) == 16:
-      text.append(backData)
+      text.append(str(backData))
     return text
 
   def MFRC522_Write(self, blockAddr, writeData):
