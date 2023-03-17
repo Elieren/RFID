@@ -393,6 +393,21 @@ class MFRC522:
         if status == self.MI_OK:
             print("Data written")
 
+  #Edited by Elieren
+  def MFRC522_DumpClassic1K(self, key, uid):
+    all_text = []
+    i = 0
+    while i < 64:
+        status = self.MFRC522_Auth(self.PICC_AUTHENT1A, i, key, uid)
+        # Check if authenticated
+        if status == self.MI_OK:
+            text = self.MFRC522_Read(i)
+            all_text.append(text)
+        else:
+            all_text = [["Authentication error"]]
+        i = i+1
+    return all_text
+
   def MFRC522_Init(self):
     GPIO.output(self.NRSTPD, 1)
 
