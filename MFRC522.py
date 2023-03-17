@@ -363,7 +363,7 @@ class MFRC522:
       text.append("Error while reading!")
     i = 0
     if len(backData) == 16:
-      text.append(str(backData))
+      text.append(backData)
     return text
 
   def MFRC522_Write(self, blockAddr, writeData):
@@ -392,32 +392,6 @@ class MFRC522:
             print("Error while writing")
         if status == self.MI_OK:
             print("Data written")
-
-  #Edited by Elieren
-  def MFRC522_DumpClassic1K(self, key, uid):
-    all_text = []
-    i = 0
-    while i < 64:
-        status = self.MFRC522_Auth(self.PICC_AUTHENT1A, i, key, uid)
-        # Check if authenticated
-        if status == self.MI_OK:
-            text = self.MFRC522_Read(i)
-            all_text.append(text)
-        else:
-            all_text = [["Authentication error"]]
-        i = i+1
-    return all_text
-
-  #Added by Elieren
-  def MFRC522_WriteClassic1K(self, key, uid, data):
-    i = 0
-    for x in data:
-        status = self.MFRC522_Auth(self.PICC_AUTHENT1A, i, key, uid)
-        if status == self.MI_OK:
-            MIFAREReader.MFRC522_Write(i, x)
-        else:
-            print("Authentication error")
-        i += 1
 
   def MFRC522_Init(self):
     GPIO.output(self.NRSTPD, 1)

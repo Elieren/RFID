@@ -50,11 +50,5 @@ sudo python3 RFID.py
 1) Read card - read all sectors of the card.
 2) Write UID - can overwrite the UID of the card (there is a 0 sector unlocked on the card).
 3) Write sector - can overwrite the given sector with the given values.
-4) Write all - used to completely copy all sectors from another card. (In beta mode)
-
-- 4.1) Write down the received code - you must rewrite all lines of code.
-
-- 4.2) Copy the code from the card - you must have two cards at once. First you attach what you want to copy, and then you attach where you want to copy.
-- 4.3) Write data from a file - writes values from the saved file to the map.
-5) Read text - reads the text written on the card.
-6) Write text - Writes text to the card.
+4) Read text - reads the text written on the card.
+5) Write text - Writes text to the card.
