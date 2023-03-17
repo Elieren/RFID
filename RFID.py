@@ -49,7 +49,6 @@ if level == 1:
                 key = [0xFF,0xFF,0xFF,0xFF,0xFF,0xFF]
                 MIFAREReader.MFRC522_SelectTag(uid)
                 text = MIFAREReader.MFRC522_DumpClassic1K(key, uid)
-                print(text)
                 sector_number = 0
                 for x in text:
                     print(f'Sector {sector_number} {x[0]}')
