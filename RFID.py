@@ -20,8 +20,9 @@ print(Fore.GREEN + banner)
 print('[1] Read card')
 print('[2] Write UID')
 print('[3] Write sector')
-print('[4] Read text')
-print('[5] Write text' + Style.RESET_ALL)
+print('[4] Clear card')
+print('[5] Read text')
+print('[6] Write text' + Style.RESET_ALL)
 
 level = int(input(Fore.YELLOW + '\n: ' + Style.RESET_ALL))
 print('\n')
@@ -200,6 +201,48 @@ elif level == 3:
             time.sleep(1)
 
 elif level == 4:
+    data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    
+    print(Fore.YELLOW + '\nAttach a card\n' + Style.RESET_ALL)
+
+    while True:
+        signal.signal(signal.SIGINT, end_read)
+        MIFAREReader = MFRC522.MFRC522()
+        (status, TagType) = MIFAREReader.MFRC522_Request(MIFAREReader.PICC_REQIDL)
+
+        if status == MIFAREReader.MI_OK:
+            print(Fore.GREEN + "Card detected\n" + Style.RESET_ALL)
+            (status, uid) = MIFAREReader.MFRC522_Anticoll()
+
+            if status == MIFAREReader.MI_OK:
+                print(Fore.YELLOW + f"Card read UID: {uid[0]}.{uid[1]}.{uid[2]}.{uid[3]}" + Style.RESET_ALL)
+                key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
+                MIFAREReader.MFRC522_SelectTag(uid)
+                print("\n")
+                    
+                lev = 0
+                not_num = [0, 3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
+                
+                while lev <= 63:
+                    if lev not in not_num:
+                        status = MIFAREReader.MFRC522_Auth(MIFAREReader.PICC_AUTHENT1A, lev, key, uid)
+                        if status == MIFAREReader.MI_OK:
+                            MIFAREReader.MFRC522_Write(lev, data)
+                            text = MIFAREReader.MFRC522_Read(lev)
+                            print(f'Sector {lev} {text[0]}' + Style.RESET_ALL)
+                        else:
+                            print("Authentication error")
+                    lev += 1
+                    time.sleep(0.1)
+                
+                MIFAREReader.MFRC522_StopCrypto1()
+                GPIO.cleanup()
+                break
+
+        else:
+            time.sleep(1)
+
+elif level == 5:
     reader = SimpleMFRC522()
     try:
         print(Fore.YELLOW + 'Attach a card\n' + Style.RESET_ALL)
@@ -211,7 +254,7 @@ elif level == 4:
         print(Fore.RED + 'Error' + Style.RESET_ALL)
     GPIO.cleanup()
     
-elif level == 5:
+elif level == 6:
     reader = SimpleMFRC522()
     try:
         while True:
