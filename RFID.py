@@ -143,9 +143,18 @@ elif level == 3:
     print('-------------------------------------------------------' + Style.RESET_ALL)
     print()
     numder = int(input(Fore.YELLOW + 'Change sector values: '))
+    not_num = [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43, 47, 51, 55, 59, 63]
+    if numder in not_num:
+        print(Fore.RED + '\nYou have chosen an unsafe sector')
+        print('Are you sure you want to continue?\n' + Style.RESET_ALL)
+        status = str(input(Fore.YELLOW + 'Save in file (Y/n): '+ Style.RESET_ALL))
+        if status.lower() == 'y':
+            pass
+        else:
+            exit()
     print()
     data = []
-    print('Example:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
+    print('\nExample:12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0\n')
     print(f'Enter new values for sector {numder}')
     new_uid = str(input(': '))
     new_uid_t = new_uid.split(', ')
